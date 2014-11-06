@@ -49,7 +49,7 @@ public class GyHoInventarServer {
         c.setDefaultServer(false);
         c.setRegister(true);
 
-        //c.addPackage("tictactoe.server.database.tables");
+        c.addPackage("de.gyhoevents.inventarserver.database.tables");
 
         datenbank = EbeanServerFactory.create(c);
 
