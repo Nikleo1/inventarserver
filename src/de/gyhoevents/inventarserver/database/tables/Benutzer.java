@@ -82,7 +82,7 @@ public class Benutzer  {
 
   
 
-    public void hashPassword(String pw) {
+    public String hashPassword(String pw) {
         try {
             byte[] bytesOfMessage = pw.getBytes();
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -91,9 +91,10 @@ public class Benutzer  {
             for (int i = 0; i < result.length; i++) {
                 hexString.append(Integer.toHexString(0xFF & result[i]));
             }
-            this.password = hexString.toString();
+            return hexString.toString();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Benutzer.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 
