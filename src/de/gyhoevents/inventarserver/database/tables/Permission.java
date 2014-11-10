@@ -22,7 +22,6 @@ import javax.persistence.Version;
 public class Permission {
     @Id
     int id;
-    @ManyToOne
     int gid;
     String node;
     @Version
