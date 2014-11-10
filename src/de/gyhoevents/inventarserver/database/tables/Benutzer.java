@@ -5,13 +5,18 @@
  */
 package de.gyhoevents.inventarserver.database.tables;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -21,16 +26,27 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "users")
-public class Benutzer  {
-
+public class Benutzer implements Serializable  {
+    
+    
     @Id
     int id;
+    int gid;
     String username;
     String password;
     String mail;
-    int groupid;
+    int bereichsId;
     @Version
     Timestamp lastUpdate;
+
+    public int getGid() {
+        return gid;
+    }
+
+    public void setGid(int gid) {
+        this.gid = gid;
+    }
+    
 
     public int getId() {
         return id;
@@ -64,13 +80,15 @@ public class Benutzer  {
         this.mail = mail;
     }
 
-    public int getGroupid() {
-        return groupid;
+    public int getBereichsId() {
+        return bereichsId;
     }
 
-    public void setGroupid(int groupid) {
-        this.groupid = groupid;
+    public void setBereichsId(int bereichsId) {
+        this.bereichsId = bereichsId;
     }
+
+    
 
     public Timestamp getLastUpdate() {
         return lastUpdate;

@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package de.gyhoevents.inventarserver;
+package de.gyhoevents.inventarserver.network;
 
+import de.gyhoevents.inventarserver.GyHoInventarServer;
 import de.gyhoevents.inventarserver.listeners.LoginListener;
 import de.gyhoevents.inventarserver.objects.Client;
 import me.Niklas.Server.SichererServer;

@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-package de.gyhoevents.inventarserver;
+package de.gyhoevents.inventarserver.managers;
 
 import de.gyhoevents.inventarserver.database.tables.Benutzer;
 import de.gyhoevents.inventarserver.objects.Client;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
@@ -18,7 +16,7 @@ import java.util.List;
  */
 public class UserManager {
     private HashMap<String,Client> clients;
-
+   
 
     public UserManager() {
         clients = new HashMap<>();
