@@ -9,6 +9,7 @@ package de.gyhoevents.inventarserver.managers;
 import de.gyhoevents.inventarserver.GyHoInventarServer;
 import de.gyhoevents.inventarserver.database.tables.Benutzer;
 import de.gyhoevents.inventarserver.database.tables.Permission;
+import de.gyhoevents.inventarserver.helpers.PermissionHelper;
 import de.gyhoevents.inventarserver.objects.Client;
 import java.util.HashMap;
 import java.util.List;
@@ -19,20 +20,17 @@ import java.util.List;
  */
 public class UserManager {
     private HashMap<String,Client> clients;
-    private HashMap<Integer,Permission> permcash;
+    private List<Permission> permcash;
+    private PermissionHelper permhelp;
 
     public UserManager() {
         clients = new HashMap<>();
-        permcash = new HashMap<>();
-        permCashLaden();
+        permhelp  = new PermissionHelper();
     }
     
-    private void permCashLaden(){
+    public void permCashLaden(){
         System.out.println("Beginne Permission Cash zu laden");
-        List<Permission> pl = GyHoInventarServer.getInstance().getDatenbank().find(Permission.class).findList();
-        for(Permission p : pl){
-            this.permcash.put(p.getGid(), p);
-        }
+        permcash = GyHoInventarServer.getInstance().getDatenbank().find(Permission.class).findList();
         System.out.println("Cash geladen");
     }
 
@@ -41,7 +39,13 @@ public class UserManager {
     }
     public void login(String pip, Benutzer b){
         clients.get(pip).setEingeloggt(true);
-        clients.get(pip).setBenutzer(b);        
+        clients.get(pip).setBenutzer(b);
+        clients.get(pip).setPermissions(permhelp.getUserPerms(b.getId()));
+        
+    }
+
+    public List<Permission> getPermcash() {
+        return permcash;
     }
     
     

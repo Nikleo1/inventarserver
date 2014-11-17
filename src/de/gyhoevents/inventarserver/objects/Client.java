@@ -7,6 +7,7 @@
 package de.gyhoevents.inventarserver.objects;
 
 import de.gyhoevents.inventarserver.database.tables.Benutzer;
+import java.util.HashMap;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Client {
    
    private boolean eingeloggt;
    private Benutzer benutzer;
+   private HashMap<String,HashMap> permissions;
 
     public Client(String ip, int port) {
         this.ip = ip;
@@ -46,6 +48,14 @@ public class Client {
 
     public void setBenutzer(Benutzer benutzer) {
         this.benutzer = benutzer;
+    }
+
+    public HashMap<String,HashMap> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(HashMap<String,HashMap> permissions) {
+        this.permissions = permissions;
     }
    
    

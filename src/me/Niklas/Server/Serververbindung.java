@@ -11,10 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +20,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import sun.misc.BASE64Encoder;
 
 /**
  *
@@ -81,7 +77,12 @@ public class Serververbindung extends Thread {
             server.bearbeiteVerbindungsaufbau(this.socket.getInetAddress().getHostAddress(), this.socket.getPort());
             while (socket.isConnected()) {
                 byte[] s = (byte[]) this.objectIn.readObject();
-                this.server.bearbeiteNachricht(socket.getInetAddress().getHostAddress(), socket.getPort(), this.entschluessele(s));
+                Object o = this.entschluessele(s);
+                if(o.getClass().equals(String.class)){
+                this.server.bearbeiteNachricht(socket.getInetAddress().getHostAddress(), socket.getPort(),(String)this.entschluessele(s));
+                }else{
+                    //handleobject
+                }
             }
             socket.close();
             this.server.getClients().remove(socket.getInetAddress().getHostAddress() + socket.getPort());
@@ -102,13 +103,13 @@ public class Serververbindung extends Thread {
         }
     }
 
-    public byte[] verschluessele(String text) {
-
+    public byte[] verschluessele(Object text) {
+        
         try {
             // Verschluesseln
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, this.aesKey);
-            byte[] encrypted = cipher.doFinal(text.getBytes());
+            byte[] encrypted = cipher.doFinal(SHelper.serialize(text));
 
             return encrypted;
         } catch (NoSuchAlgorithmException ex) {
@@ -141,14 +142,14 @@ public class Serververbindung extends Thread {
         return cipherText;
     }
 
-    public String entschluessele(byte[] text) {
+    public Object entschluessele(byte[] text) {
 
         try {
             // Entschluesseln
             Cipher cipher2 = Cipher.getInstance("AES");
             cipher2.init(Cipher.DECRYPT_MODE, this.aesKey);
             byte[] cipherData2 = cipher2.doFinal(text);
-            return new String(cipherData2);
+            return SHelper.deserialize(cipherData2);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(Serververbindung.class.getName()).log(Level.SEVERE, null, ex);
         }

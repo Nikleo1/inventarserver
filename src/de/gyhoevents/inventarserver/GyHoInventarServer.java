@@ -33,6 +33,7 @@ public class GyHoInventarServer {
         config = new ConfigManager();
         datenbank = config.verbindeDatenbank();
         usermanager = new UserManager();
+        usermanager.permCashLaden();
     }
     
     

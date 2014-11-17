@@ -23,7 +23,7 @@ public class LoginListener {
             System.out.println("Benutzer nicht bekannt: " + user);
             GyHoInventarServer.getInstance().getServer().sendeAnEinen(pIp, pPort, "login failed");
         }else if (b.getPassword().equalsIgnoreCase( b.hashPassword(password))){
-            System.out.println("Login: " + user);
+            System.out.println("User " + b.getUsername() + " logged in from " + pIp +":" + pPort);
             GyHoInventarServer.getInstance().getUsermanager().login(pIp + pPort, b);
             GyHoInventarServer.getInstance().getServer().sendeAnEinen(pIp, pPort, "login ok");
         }else{
